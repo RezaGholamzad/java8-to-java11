@@ -19,6 +19,8 @@ Java 9 Platform Module System (JPMS) is a very important software engineering te
 Java 9 modularity is the result of Project Jigsaw and this will help developers to build 
 and maintain large system in simpler way.
 
+*******************************************************************************
+
 #Module Basics : 
 
 A module declaration is contained in a file called module-info.java. Thus, 
@@ -52,6 +54,8 @@ The public and protected types within a package are accessible to other modules 
 are explicitly exported. However, if a package within a module is not exported, then it is private 
 to that module, including all of its public types.
 
+*******************************************************************************
+
 #backward capability : 
 
 Support for legacy code is provided by two key features. 
@@ -75,6 +79,8 @@ compatibility with legacy code is maintained. This approach also provides a smoo
 nonintrusive, nondisruptivetransition path to modules. Thus, it enables you to move a legacy application 
 to modules at your own pace. Furthermore, it allows you to avoid the use of modules when they are not needed.
 
+*******************************************************************************
+
 #Exporting to a Specific Module : 
 
 The basic form of the exports statement makes a package accessible to any and all other modules. 
@@ -86,6 +92,8 @@ more modules that have access to the exported package. Furthermore, only those m
 in the to clause will have access : 
 
 exports packageName to moduleNames;
+
+*******************************************************************************
 
 #requires transitive : 
 
@@ -117,6 +125,8 @@ module B{
 Here, C is now required as transitive. After making this change, any module that depends on 
 B will also, automatically, depend on C. Thus, A would automatically have access to C.
 
+*******************************************************************************
+
 #Open Modules : 
 
 As you learned earlier in this chapter, by default, the types in a module’spackages are accessible 
@@ -136,6 +146,8 @@ that only those packages that are explicitly exported are available at compile t
 the open modifier affects only run-time accessibility. The primary reason for an open module 
 is to enable the packages in the module to be accessed through reflection.
 
+*******************************************************************************
+
 #The opens Statement : 
 
 It is possible for a module to open a specific package for run-time access by other 
@@ -150,6 +162,8 @@ opens does not grant compile-time access. It is used only to open a package for 
 reflective access. However, you can both export and open a module. 
 One other point: an opens statement cannot
 be used in an open module. Remember, all packages in an open module are already open.
+
+*******************************************************************************
 
 #requires static : 
 
