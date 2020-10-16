@@ -127,6 +127,16 @@ B will also, automatically, depend on C. Thus, A would automatically have access
 
 *******************************************************************************
 
+#Module Graphs : 
+
+A term you are likely to encounter when working with modules is module graph.During compilation, 
+the compiler resolves the dependence relationships between modules by creating a module graph 
+that represents the dependences. The process ensures that all dependences are resolved, 
+including those that occur indirectly. For example, if module A requires module B, and B requires 
+moduleC, then the module graph will contain module C even if A does not use it directly.
+
+*******************************************************************************
+
 #Open Modules : 
 
 As you learned earlier in this chapter, by default, the types in a module’spackages are accessible 
