@@ -1,3 +1,5 @@
+# Optional class
+
 Beginning with JDK 8, the classes called Optional, OptionalDouble,OptionalInt, and OptionalLong offer 
 a way to handle situations in which a value may or may not be present. In the past, you would normally 
 use the value null to indicate that no value is present. However, this can lead to null pointerexceptions 
@@ -31,7 +33,7 @@ one of its methods to create an instance. For example, you can create an Optiona
 specified value by using of(). You can create an instance of Optional that does not contain a 
 value by using empty().
 
-**In java 9, three new methods are added to improve its functionality :**
+## In java 9, three new methods are added to improve its functionality :
 
 **1) stream() :**
 
