@@ -1,3 +1,5 @@
+# Optional class
+
 Beginning with JDK 8, the classes called Optional, OptionalDouble,OptionalInt, and OptionalLong offer 
 a way to handle situations in which a value may or may not be present. In the past, you would normally 
 use the value null to indicate that no value is present. However, this can lead to null pointerexceptions 
@@ -20,8 +22,8 @@ calling isPresent(). If a value is available,it will return true. Otherwise, fal
 If a value is present in an Optional instance, you can obtain it by calling get(). However, 
 if you call get()on an object that does not contain a value, NoSuchElementException is thrown.
 For this reason, you should always first confirm that a value is present before calling get() on an 
-Optional object. Beginning with JDK 10, the parameterless version of orElseThrow() can be used instead 
-of get(), and its name adds clarity to the operation.
+Optional object. **Beginning with JDK 10, the parameterless version of orElseThrow() can be used instead 
+of get(), and its name adds clarity to the operation.**
 
 Of course, having to call two methods to retrieve a value adds overhead to each access. 
 Fortunately, Optional defines methods that combine the check for a value with the retrieval of the value. 
@@ -31,9 +33,9 @@ one of its methods to create an instance. For example, you can create an Optiona
 specified value by using of(). You can create an instance of Optional that does not contain a 
 value by using empty().
 
-In java 9, three new methods are added to improve its functionality : 
+## In java 9, three new methods are added to improve its functionality :
 
-1) stream() : 
+**1) stream() :**
 
 Since Java 9 we can treat the Optional instance as a Stream and utilize all methods from Stream API. 
 This makes it also much more convenient to work with streams of Optionals.
@@ -41,12 +43,12 @@ This makes it also much more convenient to work with streams of Optionals.
 If a value is present, returns a sequential Stream containing only that value, 
 otherwise returns an empty Stream.
 
-2) ifPresentOrElse() : 
+**2) ifPresentOrElse() :**
 
 If a value is present, performs the given action with the value, 
 otherwise performs the given empty-based action.
 
-3) or() : 
+**3) or() :**
 
 If a value is present, returns an Optional describing the value, otherwise returns an Optional 
 produced by the supplying function.
