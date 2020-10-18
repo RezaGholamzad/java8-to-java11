@@ -3,7 +3,7 @@
 The root interface in the collection hierarchy. A collection represents a group of objects, known as its elements.
 Collection is a generic interface that has this declaration: 
 
-interface Collection<E>
+`interface Collection<E>`
 
 The interfaces that underpin collections : 
 
@@ -37,8 +37,6 @@ Collection extends the Iterable interface. This means that all collections can b
 by use of the for-each style for loop. (Recall that only classes that
 implement Iterable can be cycled through by the for.)
 
-*************************************************
-
 ## Exceptions : 
 
 Collection declares the core methods that all collections will have. 
@@ -56,8 +54,6 @@ An IllegalArgumentException is thrown if an invalid argument is used.
 
 An IllegalStateException is thrown if an attempt 
 is made to add an element to a fixed-length collection that is full.
-
-*************************************************
 
 ## Methods :
 
@@ -113,9 +109,7 @@ The List interface extends Collection and declares the behavior of a collection 
 of elements. Elements can be inserted or accessed by their position in the list, using a zero-based index. 
 A list may contain duplicate elements.List is a generic interface that has this declaration:
 
-interface List<E>
-
-*************************************************
+`interface List<E>`
 
 ## Exceptions : 
 
@@ -131,8 +125,6 @@ A NullPointerException is thrown if an attempt is made to store a null object an
 are not allowed in the list. 
 
 An IllegalArgumentException is thrown if an invalid argument is used.
-
-*************************************************
 
 ## methods : 
 
@@ -173,7 +165,7 @@ does not allow duplicate elements. Therefore, the add() method returns false if 
 add duplicate elements to a set.With two exceptions, it does not specify any additional methods of 
 its own. Set is a generic interface that has this declaration: 
 
-interface Set<E>
+`interface Set<E>`
 
 **Beginning with JDK 9, Set includes the of() factory method, which has a number of overloads. 
 Each version returns an unmodifiable, value-based collection that is comprised of the arguments 
@@ -185,10 +177,138 @@ elements or an array of elements.For all versions, null elements are not allowed
 the Set implementation is unspecified.Beginning with JDK 10, Set includes the static copyOf( ) 
 method here :**
 
-**static <E> Set<E> copyOf(Collection <? extends E> from)**
+`static <E> Set<E> copyOf(Collection <? extends E> from)`
 
 **It returns a set that contains the same elements as from. 
 Null values are not allowed. The returned set is unmodifiable.**
+
+*************************************************
+
+# The SortedSet Interface :
+
+The SortedSet interface extends Set and declares the behavior of a set sorted in
+ascending order. SortedSet is a generic interface that has this declaration:
+
+`interface SortedSet<E>`
+
+## Exceptions :
+
+throw a NoSuchElementException when no items are contained in the invoking set.
+ 
+A ClassCastException is thrown when an object is incompatible with the elements
+in a set. 
+
+A NullPointerException is thrown if an attempt is made to use a null
+object and null is not allowed in the set. 
+
+An IllegalArgumentException is thrown if an invalid argument is used.
+
+## methods : 
+
+SortedSet defines several methods that make set processing more convenient.
+To obtain the first object in the set, call first(). 
+
+To get the last element, use last(). 
+
+You can obtain a subset of a sorted set by calling subSet(), specifying the first
+and last object in the set. 
+
+If you need the subset that starts with the first element in the set, use headSet(). 
+
+If you want the subset that ends the set, use tailSet().
+
+*************************************************
+
+# The NavigableSet Interface : 
+
+The NavigableSet interface extends SortedSet and declares the behavior of a collection that 
+supports the retrieval of elements based on the closest match to a given value or values. 
+NavigableSet is a generic interface that has this declaration : 
+
+`interface NavigableSet<E>`
+
+## Exception : 
+
+A ClassCastException is thrown when an object is incompatible with the elements in the set. 
+
+A NullPointerException is thrown if an attempt is made to use a null object and null is not allowed in the set. 
+
+An IllegalArgumentException is thrown if an invalid argument is used.
+
+*************************************************
+
+# The Queue Interface : 
+
+The Queue interface extends Collection and declares the behavior of a queue,which is often a first-in, 
+first-out list. However, there are types of queues in which the ordering is based upon other criteria. 
+Queue is a generic interface that has this declaration:
+
+`interface Queue<E>`
+
+## Exception :
+
+Several methods throw a ClassCastException when an object is incompatible with the elements in the queue. 
+
+A NullPointerException is thrown if an attempt is made to store a null object and null elements 
+are not allowed inthe queue. 
+
+An IllegalArgumentException is thrown if an invalid argument is used. 
+
+An IllegalStateException is thrown if an attempt is made to add an element to a fixed-length queue that is full. 
+
+A NoSuchElementException is thrown if an attempt is made to remove an element from an empty queue.
+
+## Methods : 
+
+Despite its simplicity, Queue offers several points of interest. First, element scan only be removed from 
+the head of the queue. Second, there are two methods that obtain and remove elements: poll() and remove(). 
+The difference between them is that poll() returns null if the queue is empty, but remove() throws an exception. 
+
+Third, there are two methods, element() and peek(), that obtain but don’t remove the element at the head of 
+the queue. They differ only in that element() throws an exception if the queue is empty, but peek() 
+returns null.
+
+Finally, notice that offer() only attempts to add an element to a queue. 
+Because some queues have a fixed length and might be full, offer() can fail.
+
+*************************************************
+
+# The Deque Interface :
+
+The Deque interface extends Queue and declares the behavior of a double-ended queue. 
+Double-ended queues can function as standard, first-in, first-out
+queues or as last-in, first-out stacks. Deque is a generic interface that has this declaration:
+
+`interface Deque<E>`
+
+## Exception :
+
+Several methods throw a ClassCastException when an object is incompatible with the elements in the deque. 
+
+A NullPointerException is thrown if an attempt is made to store a null object and null elements are not allowed 
+in the deque. 
+
+An IllegalArgumentException is thrown if an invalid argument is used. 
+
+An IllegalStateException is thrown if an attempt is made to add an element to a fixed-length deque that is full. 
+
+A NoSuchElementException is thrown if an attempt is made to remove an element from an empty deque. 
+
+## Methods : 
+
+In addition to the methods that it inherits from Queue, Deque adds these methods : 
+
+Notice that Deque includes the methods push() and pop(). These methods enable a Deque to function as a stack. 
+
+Also, notice the descendingIterator( )method. It returns an iterator that returns elements in reverse order. 
+In other words, it returns an iterator that moves from the end of the collection to the start.
+
+A Deque implementation can be capacity-restricted, which means that only a limited number of elements 
+can be added to the deque. When this is the case, an attempt to add an element to the deque can fail. 
+Deque allows you to handle such a failure in two ways. First, methods such as addFirst() and addLast() 
+throw an IllegalStateException if a capacity-restricted deque is full. 
+Second,methods such as offerFirst() and offerLast() return false if the element cannot be added.
+
 
 
 

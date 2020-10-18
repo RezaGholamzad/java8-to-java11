@@ -1,9 +1,6 @@
 package com.oracle;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Main {
 
@@ -37,6 +34,12 @@ public class Main {
 
         //Now, you can :
         return Map.of("john", 1, "George", 2, "Betty", 3);
+    }
+
+    private List<String> createImmutableListInJava9(){
+
+        //Now, you can :
+        return List.of("john", "George", "Betty");
     }
 
     public static void main(String[] args) {
