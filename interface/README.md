@@ -1,4 +1,4 @@
-#Private methods in interfaces : 
+# Private methods in interfaces : 
 
 Beginning with JDK 9, an interface can include a private method. A private interface method 
 can be called only by a default method or another private method defined by the same interface. 
