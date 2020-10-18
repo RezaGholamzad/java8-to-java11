@@ -1,4 +1,4 @@
-#Modules : 
+# Modules : 
 
 A Module is a set of packages designed for reuse. In Java 9, Java programs are Modules. 
 Java Module is the main feature introduced in Java 9 release. In java, we have classes, 
@@ -21,7 +21,7 @@ and maintain large system in simpler way.
 
 *******************************************************************************
 
-#Module Basics : 
+# Module Basics : 
 
 A module declaration is contained in a file called module-info.java. Thus, 
 amodule is defined in a Java source file. This file is then compiled by javac into a class 
@@ -56,7 +56,7 @@ to that module, including all of its public types.
 
 *******************************************************************************
 
-#backward capability : 
+# backward capability : 
 
 Support for legacy code is provided by two key features. 
 
@@ -81,7 +81,7 @@ to modules at your own pace. Furthermore, it allows you to avoid the use of modu
 
 *******************************************************************************
 
-#Exporting to a Specific Module : 
+# Exporting to a Specific Module : 
 
 The basic form of the exports statement makes a package accessible to any and all other modules. 
 This is often exactly what you want. However, in some specialized development situations, 
@@ -95,7 +95,7 @@ exports packageName to moduleNames;
 
 *******************************************************************************
 
-#requires transitive : 
+# requires transitive : 
 
 Consider a situation in which there are three modules, A, B, and C, that have the following dependences:
 
@@ -127,7 +127,7 @@ B will also, automatically, depend on C. Thus, A would automatically have access
 
 *******************************************************************************
 
-#Module Graphs : 
+# Module Graphs : 
 
 A term you are likely to encounter when working with modules is module graph.During compilation, 
 the compiler resolves the dependence relationships between modules by creating a module graph 
@@ -137,7 +137,7 @@ moduleC, then the module graph will contain module C even if A does not use it d
 
 *******************************************************************************
 
-#Open Modules : 
+# open Modules : 
 
 As you learned earlier in this chapter, by default, the types in a module’spackages are accessible 
 only if they are explicitly exported via an exports statement. While this is usually what you will 
@@ -158,7 +158,7 @@ is to enable the packages in the module to be accessed through reflection.
 
 *******************************************************************************
 
-#The opens Statement : 
+# The opens Statement : 
 
 It is possible for a module to open a specific package for run-time access by other 
 modules and for reflective access rather than opening an entire module. Todo so, 
