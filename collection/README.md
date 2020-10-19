@@ -41,3 +41,43 @@ method here :
 
 It returns a set that contains the same elements as from. 
 Null values are not allowed. The returned set is unmodifiable.
+
+*************************************************
+
+# The Map Interface : 
+
+Beginning with JDK 9, Map includes the of( ) factory method, which has a number of overloads. 
+Each version returns an unmodifiable, value-based map that is comprised of the arguments that it is passed. 
+The primary purpose of of() is to provide a convenient, efficient way to create a small Map. 
+There are 11overloads of of().
+
+Ten overloads take from 1 to 10 arguments and create a list that contains the specified elements.
+
+For all versions, null keys and/or values are not allowed. In all cases, theMap implementation is unspecified.
+
+*************************************************
+
+# Arrays : 
+
+JDK 9 added three comparison methods to Arrays. They are compare(),compareUnsigned(), and mismatch(). 
+Each has several overloads and each has versions that let you define a range to compare. 
+Here is a brief description of each. The compare() method compares two arrays. It returns zero if they are the same, 
+a positive value if the first array is greater than the second, and negative if the first array is less than the second. 
+To perform an unsigned comparison of two arrays that hold integer values, use compareUnsigned(). 
+To find the location of the first mismatch between two arrays, use mismatch().
+
+*************************************************
+
+# The Enumeration Interface : 
+
+JDK 9 added a default method to Enumeration called asIterator(). 
+It is shown here:
+
+`default Iterator<E> asIterator()`
+
+It returns an iterator to the elements in the enumeration. As such, it provides an easy way to convert 
+an old-style Enumeration into a modern Iterator.Furthermore, if a portion of the elements in the enumeration 
+have already been read prior to calling asIterator(), 
+the returned iterator accesses only the remaining elements.
+
+
