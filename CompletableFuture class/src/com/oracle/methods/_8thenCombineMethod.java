@@ -1,10 +1,10 @@
-package com.oracle;
+package com.oracle.methods;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-public class _8thenCombine {
+public class _8thenCombineMethod {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
 
         /*

@@ -1,9 +1,9 @@
-package com.oracle;
+package com.oracle.methods;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-public class _7thenCompose {
+public class _7thenComposeMethod {
 
     static CompletableFuture<User> getUser(){
         return CompletableFuture.supplyAsync(() -> {
@@ -27,7 +27,7 @@ public class _7thenCompose {
             Therefore, the final result in this case is a nested CompletableFuture.
          */
         CompletableFuture<CompletableFuture<Double>> result = getUser()
-                .thenApply(_7thenCompose::getId);
+                .thenApply(_7thenComposeMethod::getId);
 
         System.out.println(result.get().get());
 
@@ -38,7 +38,7 @@ public class _7thenCompose {
             (which in most cases you would), then use thenCompose().
          */
         CompletableFuture<Double> future = getUser()
-                .thenCompose(_7thenCompose::getId);
+                .thenCompose(_7thenComposeMethod::getId);
 
         System.out.println(future.get());
     }

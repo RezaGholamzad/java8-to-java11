@@ -1,4 +1,4 @@
-package com.oracle;
+package com.oracle.methods;
 
 import java.util.concurrent.*;
 
