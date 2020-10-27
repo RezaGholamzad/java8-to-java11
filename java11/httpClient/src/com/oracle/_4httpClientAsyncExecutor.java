@@ -20,6 +20,11 @@ public class _4httpClientAsyncExecutor {
         // Add a custom executor :
 
         Executor executor = Executors.newFixedThreadPool(5);
+
+        /*
+            Once created, an HttpClient instance is immutable, thus automatically thread-safe,
+            and you can send multiple requests with it.
+         */
         HttpClient httpClient = HttpClient.newBuilder()
                 .executor(executor)
                 .version(HttpClient.Version.HTTP_2)

@@ -19,6 +19,11 @@ public class _5httpClientPostFormParameters {
             .connectTimeout(Duration.ofSeconds(10))
             .build();
 
+    /*
+        HttpRequest.BodyPublisher Subtype of Flow.Publisher.
+        A BodyPublisher is used when you send a request with a request body.
+        The BodyPublisher converts objects into a flow of byte buffers suitable for sending as a body.
+     */
     public static HttpRequest.BodyPublisher ofFromData(Map<Object, Object> data){
         var builder = new StringBuilder();
         /*
@@ -34,6 +39,11 @@ public class _5httpClientPostFormParameters {
             builder.append("=");
             builder.append(URLEncoder.encode(entry.getValue().toString(), StandardCharsets.UTF_8));
         }
+
+        /*
+            HttpRequest.BodyPublishers Implementations of BodyPublisher that implement
+            various useful publishers, such as publishing the request body from a String, or from a file.
+         */
         return HttpRequest.BodyPublishers.ofString(builder.toString());
     }
 
@@ -45,7 +55,7 @@ public class _5httpClientPostFormParameters {
         data.put("ts", System.currentTimeMillis());
 
         HttpRequest request = HttpRequest.newBuilder(new URI("https://httpbin.org/post"))
-                .POST(ofFromData(data))
+                .POST(ofFromData(data)) // BodyPublishers.noBody() can be used where no request body is required.
 //                .uri(URI.create("https://httpbin.org/post"))
                 .setHeader("User-Agent", "Java 11 HttpClient Bot") // add request header
                 .header("Content-Type", "application/x-www-form-urlencoded")
