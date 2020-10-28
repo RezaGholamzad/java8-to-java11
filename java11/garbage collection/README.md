@@ -5,7 +5,31 @@ and  some  experimental  collectors  that  will  (ideally)  beproduction-ready  
 Other  Java  implementations  such  as  Open  J9  orthe Azul JVM have their own collectors.
 The  performance  characteristics  of  all  these  collectors  are  quite  different.
 
-## The serial garbage collector : 
+## Garbage Collection Overview : 
+
+When  the  GC  algorithm  finds  unused  objects,  the  JVM  can  free  the  memory  occupied  by  those  objects  and  use  it  to  allocate  additional  objects.  However,  it  is  usually insufficient simply to keep track of that free memory and use it for future allocations;at some point, memory must be compacted to prevent memory fragmentation.
+
+The  implementations  are  a  little  more  detailed,  but  the  performance  of  GC  is  dominated by these basic operations: finding unused objects, making their memory available, and compacting the heap. Different collectors take different approaches to these operations,  particularly  compaction:  some  algorithms  delay  compaction  until  absolutely necessary, some compact entire sections of the heap at a time, and some compact  the  heap  by  relocating  small  amounts  of  memory  at  a  time.  These  different approaches are why different algorithms have different performance characteristics.
+
+It  is  simpler  to  perform  these  operations  if  no  application  threads  are  running  whilethe  garbage  collector  is  running.  Java  programs  are  typically  heavily  multithreaded,and the garbage collector itself often runs multiple threads. This discussion considers two logical groups of threads: those performing application logic (often called mutator threads, since they are mutating objects as part of the application logic) and those performing GC. When GC threads track object references or move objects around in memory,  they  must  make  sure  that  application  threads  are  not  using  those  objects.This is particularly true when GC moves objects around: the memory location of the object changes during that operation, and hence no application threads can be accessing the object.
+
+The pauses when all application threads are stopped are called stop-the-world pauses.These pauses generally have the greatest impact on the performance of an application,and minimizing those pauses is one important consideration when tuning GC.
+
+## Generational Garbage Collectors : 
+
+Though  the  details  differ  somewhat,  most  garbage  collectors  work  by  splitting  the heap into generations. These are called the old (or tenured) generation and the young generation. The young generation is further divided into sections known as eden andthe survivor spaces (though sometimes, eden is incorrectly used to refer to the entire young generation).
+
+This kind of operation is common in Java, so the garbage collector is designed to take advantage  of  the  fact  that  many  (and  sometimes  most)  objects  are  only  used  temporarily. This is where the generational design comes in. Objects are first allocated in the  young  generation,  which  is  a  subset  of  the  entire  heap.  When  the  young  generation fills up, the garbage collector will stop all the application threads and empty out the young generation. Objects that are no longer in use are discarded, and objects that are  still  in  use  are  moved  else where.  This  operation  is  called  a  minor  GC  or  a  youngGC.
+
+The advantage arises from the way objects are allocated in the young genera‐tion. Objects are allocated in eden (which encompasses the vast majority of the young generation). When the young generation is cleared during a collection, all objects ineden are either moved or discarded: objects that are not in use can be discarded, and objects in use are moved either to one of the survivor spaces or to the old generation.Since   all   surviving   objects   are   moved,   the   young   generation   is   automatically compacted when it is collected: at the end of the collection, eden and one of the survivor  spaces  are  empty,  and  the  objects  that  remain  in  the  young  generation  are  compacted within the other survivor space.Common  GC  algorithms  have  stop-the-world  pauses  during  collection  of  the  young generation.
+
+As objects are moved to the old generation, eventually it too will fill up, and the JVM will need to find any objects within the old generation that are no longer in use and discard them. This is where GC algorithms have their biggest differences. The simpler algorithms  stop  all  application  threads,  find  the  unused  objects,  free  their  memory,and then compact the heap. This process is called a full GC, and it generally causes a relatively long pause for the application threads.
+
+On  the  other  hand,  it  is  possible though  more  computationally  complex to  find unused  objects  while  application  threads  are  running.  Because  the  phase  where  they scan  for  unused  objects  can  occur  without  stopping  application  threads,  these  algorithms are called concurrent collectors. They are also called low pause (and sometimes,incorrectly, pauseless) collectors since they minimize the need to stop all the applica‐tion threads. Concurrent collectors also take different approaches to compacting theold generation.
+
+When  using  a  concurrent  collector,  an  application  will  typically  experience  fewer(and much shorter) pauses. The biggest trade-off is that the application will use more CPU overall. Concurrent collectors can also be more difficult to tune in order to get their  best  performance  (though  in  JDK  11,  tuning  concurrent  collectors  like  the  G1GC  is  much  easier  than  in  previous  releases,  which  reflects  the  engineering  progress that has been made since the concurrent collectors were first introduced).
+
+### The serial garbage collector : 
 
 The serial garbage collector is the simplest of the collectors. This is the default collec‐tor if the application 
 is running on a client-class machine (32-bit JVMs on Windows)or on a single-processor machine. 
@@ -20,7 +44,7 @@ The serial collector is enabled by using the -XX:+UseSerialGC flag (though usual
 JVMflags, the serial collector is not disabled by changing the plus sign to a minus sign (i.e.,by  specifying  -XX:-UseSerialGC).  
 On  systems  where  the  serial  collector  is  thedefault, it is disabled by specifying a different GC algorithm.
 
-## The throughput collector :
+### The throughput collector :
 
 In JDK 8, the throughput collector is the default collector for any 64-bit machine withtwo  or  more  CPUs.  The  throughput  collector  uses  multiple  threads  to  collect  theyoung generation, which makes minor GCs much faster than when the serial collec‐tor is used. This uses multiple threads to process the old generation as well. Because ituses multiple threads, the throughput collector is often called the parallel collector.
 
@@ -28,7 +52,7 @@ The  throughput  collector  stops  all  application  threads  during  both  mino
 
 Note  that  old  versions  of  the  JVM  enabled  parallel  collection  in  the  young andold generations separately, so you might see references to the flag-XX:+UseParallelOldGC.  This  flag  is  obsolete  (though  it  still  functions,  and  youcould disable this flag to collect only the young generation in parallel if for some rea‐son you really wanted to).
 
-## The G1 GC collector : 
+### The G1 GC collector : 
 
 The G1 GC (or garbage first garbage collector) uses a concurrent collection strategy tocollect the heap with minimal pauses. It is the default collector in JDK 11 and later for64-bit JVMs on machines with two or more CPUs.
 
