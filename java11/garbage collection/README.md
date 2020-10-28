@@ -29,6 +29,30 @@ On  the  other  hand,  it  is  possible though  more  computationally  complex t
 
 When  using  a  concurrent  collector,  an  application  will  typically  experience  fewer(and much shorter) pauses. The biggest trade-off is that the application will use more CPU overall. Concurrent collectors can also be more difficult to tune in order to get their  best  performance  (though  in  JDK  11,  tuning  concurrent  collectors  like  the  G1GC  is  much  easier  than  in  previous  releases,  which  reflects  the  engineering  progress that has been made since the concurrent collectors were first introduced).
 
+As  you  consider  which  garbage  collector  is  appropriate  for  your  situation,  thinkabout the overall performance goals that must be met. Trade-offs exist in every situa‐tion. In an application (such as a REST server) measuring the response time of indi‐vidual requests, consider these points:
+
+• The individual requests will be impacted by pause times and more importantly by long pause times for full GCs. If minimizing the effect of pauses on response times is the goal, a concurrent collector may be more appropriate.
+
+• If the average response time is more important than the outliers (i.e., the 90th%)response time), a nonconcurrent collector may yield better results.
+
+• The benefit of avoiding long pause times with a concurrent collector comes at the expense of extra CPU usage. If your machine lacks the spare CPU cycles needed by a concurrent collector, a nonconcurrent collector may be the better choice.
+
+Similarly,  the  choice  of  garbage  collector  in  a  batch  application  is  guided  by  the  fol‐lowing trade-off:
+
+• If enough CPU is available, using the concurrent collector to avoid full GC pauses will allow the job to finish faster.
+
+• If  CPU  is  limited,  the  extra  CPU  consumption  of  the  concurrent  collector  will cause the batch job to take more time.
+
+### Quick Summary : 
+
+• GC  algorithms  generally  divide  the  heap  into  old  and  young generations.
+
+• GC algorithms generally employ a stop-the-world approach to clearing objects from the young generation, which is usually aquick operation.
+
+• Minimizing the effect of performing GC in the old generationis a trade-off between pause times and CPU usage.
+
+## GC Algorithms :
+
 ### The serial garbage collector : 
 
 The serial garbage collector is the simplest of the collectors. This is the default collec‐tor if the application 
@@ -63,3 +87,5 @@ In G1 GC, the old generation is processed by background threads that don’t nee
 The trade-off for avoiding the full GC cycles is CPU time: the (multiple) backgroundthreads G1 GC uses to process the old generation must have CPU cycles available atthe same time the application threads are running.
 
 G1 GC is enabled by specifying the flag -XX:+UseG1GC. In most cases, it is the defaultin JDK 11, and it is functional in JDK 8 as well—particularly in later builds of JDK 8,which  contains  many  important  bug  fixes  and  performance  enhancements  that  havebeen  back-ported  from  later  releases.  Still,  as  you’ll  see  when  we  explore  G1  GC  indepth, one major performance feature is missing from G1 GC in JDK 8 that can makeit unsuitable for that release.
+
+*reference : chapter 5 - Java Performance - In-Depth Advice for Tuning and Programming Java 8, 11, and Beyond. by Scott Oaks*
