@@ -9,6 +9,14 @@ CDS only allowed the bootstrap class loader, limiting the feature to system clas
 system class loader (a.k.a., the “app class loader”), the built-in platform class loader, and custom class loaders to load archived classes. 
 This makes it possible to use the feature for application classes.
 
+## The advantages of loading classes from the shared archive :
+
+1) The classes stored in the archive are preprocessed, which means that the JVM memory mapping is stored in the archive too. It reduces the overhead of class-loading when a JVM instance starts.
+
+2) The memory region can even be shared between the JVM instances running on the same computer, which reduces overall memory consumption by eliminating the need to replicate the same information in each instance.
+
+The new JVM functionality allows us to create a list of classes to be shared, then use this list to create a shared archive, and use the shared archive to fast-load archived classes into memory.
+
 We can use the following steps to make use of this feature:
 
 1. Get the list of classes to archive
@@ -20,7 +28,7 @@ We can use the following steps to make use of this feature:
     
 2. Create the AppCDS archive
 
-    Following command creates hello.js a using the hello.lst as input:
+    Following command creates hello.jsa (jsa = java shared archive) using the hello.lst as input:
 
     `$ java -Xshare:dump -XX:+UseAppCDS -XX:SharedClassListFile=hello.lst \
         -XX:SharedArchiveFile=hello.jsa -cp hello.jar`
