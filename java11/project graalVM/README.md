@@ -54,7 +54,7 @@ The Graal compiler was created with those advantages in mind. It uses the new JV
 
 The JVMCI is part of the OpenJDK since JDK 9, so we can use any standard OpenJDK or Oracle JDK to run Graal.
 
-What JVMCI actually allows us to do is to exclude the standard tiered compilation and plug in our brand new compiler (i.e. Graal) without the need of changing anything in the JVM.
+What JVMCI actually allows us to do is to exclude the standard tiered compilation and plug in our brand new compiler (i.e. Graal) without the need of changing anything in the JVM.(enables us to integrate it with the HotSpot.)
 
 The interface is quite simple. When Graal is compiling a method, it'll pass the bytecode of that method as the input to the JVMCI'. As an output, we'll get the compiled machine code. Both the input and the output are just byte arrays:
 
