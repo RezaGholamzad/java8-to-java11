@@ -1,4 +1,4 @@
-# What Is a JIT Compiler? : 
+# JIT Compiler : 
 
 When we compile our Java program (e.g., using the javac command), we'll end up with our source code compiled into 
 the binary representation of our code – a JVM bytecodehis bytecode is simpler and more compact than our source code, 
@@ -9,7 +9,7 @@ executing on a real processor, the JVM can run another compiler which will now c
 can be run by the processor. This so-called just-in-time compiler is much more sophisticated than the javac compiler, 
 and it runs complex optimizations to generate high-quality machine code.
 
-# More Detailed Look into the JIT Compiler : 
+## More Detailed Look into the JIT Compiler : 
 
 The JDK implementation by Oracle is based on the open-source OpenJDK project. This includes the HotSpot virtual machine, 
 available since Java version 1.3. It contains two conventional JIT-compilers: the client compiler, also called 
