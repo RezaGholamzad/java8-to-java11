@@ -20,3 +20,16 @@ to run but produces a better-optimized code. The client compiler is a better fit
 don't want to have long pauses for the JIT-compilation. The server compiler is better for long-running server 
 applications that can spend more time on the compilation.
 
+## Tiered Compilation : 
+
+Today, Java installation uses both JIT compilers during the normal program execution.
+
+As we mentioned in the previous section, our Java program, compiled by javac, starts its execution in an interpreted mode. The JVM tracks each frequently called method and compiles them. In order to do that, it uses C1 for the compilation. But, the HotSpot still keeps an eye on the future calls of those methods. If the number of calls increases, the JVM will recompile these methods once more, but this time using C2.
+
+This is the default strategy used by the HotSpot, called tiered compilation.
+
+## The Server Compiler : 
+
+Let's now focus for a bit on C2, since it is the most complex of the two. C2 has been extremely optimized and produces code that can compete with C++ or be even faster. The server compiler itself is written in a specific dialect of C++.
+
+However, it comes with some issues. Due to possible segmentation faults in C++, it can cause the VM to crash. Also, no major improvements have been implemented in the compiler over the last several years. The code in C2 has become difficult to maintain, so we couldn't expect new major enhancements with the current design. With that in mind, the new JIT compiler is being created in the project named GraalVM.
