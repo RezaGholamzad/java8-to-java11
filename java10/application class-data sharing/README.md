@@ -17,6 +17,8 @@ This makes it possible to use the feature for application classes.
 
 The new JVM functionality allows us to create a list of classes to be shared, then use this list to create a shared archive, and use the shared archive to fast-load archived classes into memory.
 
+## creating and using an archive : 
+
 We can use the following steps to make use of this feature:
 
 1. Get the list of classes to archive
