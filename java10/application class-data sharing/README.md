@@ -3,6 +3,8 @@
 Class-Data Sharing, introduced in JDK 5, allows a set of classes to be pre-processed into a shared archive file that can then be memory-mapped at runtime 
 to reduce startup time which can also reduce dynamic memory footprint when multiple JVMs share the same archive file.
 
+The general idea was that, when the JVM first launched, anything loaded by the bootstrap classloader was serialized and stored in a file on disk that could be reloaded on future launches of the JVM. This meant that multiple instances of the JVM shared the class metadata, so it wouldn’t have to load them all every time.
+
 CDS only allowed the bootstrap class loader, limiting the feature to system classes only. Application CDS (AppCDS) extends CDS to allow the built-in 
 system class loader (a.k.a., the “app class loader”), the built-in platform class loader, and custom class loaders to load archived classes. 
 This makes it possible to use the feature for application classes.
