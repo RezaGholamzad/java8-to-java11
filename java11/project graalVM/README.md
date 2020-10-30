@@ -68,6 +68,40 @@ In real-life scenarios, we'll usually need some more information like the number
 
 Essentially, when calling the compileMethod() of the JVMCICompiler interface, we'll need to pass a CompilationRequest object. It'll then return the Java method we want to compile, and in that method, we'll find all the information we need.
 
+## The Data Structure Behind Graal : 
 
+Basic compiler's job, in general, is to act upon our program. This means that it must symbolize 
+it with an appropriate data structure. Graal uses a graph for such a purpose, 
+the so-called program-dependence-graph.
 
+In a simple scenario, where we want to add two local variables, i.e., x + y, 
+we would have one node for loading each variable and another node for adding them. 
+Beside it, we'd also have two edges representing the data flow.
+
+### Actual Graphs : 
+
+We can examine the real Graal graphs with the IdealGraphVisualiser. To run it, we use the mx igv command. 
+We also need to configure the JVM by setting the -Dgraal.Dump flag.
+
+This data structure is sometimes called a sea-of-nodes, or a soup-of-nodes. We need to mention that 
+the C2 compiler uses a similar data structure, so it's not something new, innovated exclusively for Graal.
+
+It is noteworthy remember that Graal optimizes and compiles our program by modifying the above-mentioned 
+data structure. We can see why it was an actually good choice to write the Graal JIT compiler in Java: 
+a graph is nothing more than a set of objects with references connecting them as the edges. 
+That structure is perfectly compatible with the object-oriented language, which in this case is Java.
+
+## Ahead-of-Time Compiler Mode : 
+
+It is also important to mention that we can also use the Graal compiler in the Ahead-of-Time compiler 
+mode in Java 10. As we said already, the Graal compiler has been written from scratch. It conforms 
+to a new clean interface, the JVMCI, which enables us to integrate it with the HotSpot. 
+That doesn't mean that the compiler is bound to it though.
+
+One way of using the compiler is to use a profile-driven approach to compile only the hot methods, 
+but we can also make use of Graal to do a total compilation of all methods in an offline 
+mode without executing the code.
+
+The main reason why we would use Graal in this manner is to speed up startup time until 
+the regular Tiered Compilation approach in the HotSpot can take over.
 
