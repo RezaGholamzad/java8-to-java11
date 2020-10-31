@@ -2,8 +2,6 @@
 
 VMs are now aware of being run in a Docker container and will extract container-specific configuration instead of querying the operating system itself – it applies to data like the number of CPUs and total memory that have been allocated to the container.
 
-JVMs are now aware of being run in a Docker container and will extract container-specific configuration instead of querying the operating system itself – it applies to data like the number of CPUs and total memory that have been allocated to the container.
-
 However, this support is only available for Linux-based platforms. This new support is enabled by default and can be disabled in the command line with the JVM option:
 
 `-XX:-UseContainerSupport`
